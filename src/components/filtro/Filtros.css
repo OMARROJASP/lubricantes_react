@@ -1,0 +1,13 @@
+.filtrar-por-precio > input[type="range"]:first-child {
+    overflow: hidden;
+    width: 80px;
+    -webkit-appearance: none;
+    background-color: #9a905d;
+}
+
+.filtrar-por-precio > input[type="range"]:first-child::-webkit-slider-runnable-track {
+    height: 10px;
+    -webkit-appearance: none;
+    color: #13bba4;
+    margin-top: -1px;
+}
