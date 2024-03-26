@@ -7,23 +7,38 @@ import {AgregarCategoria} from "../components/categoria/AgregarCategoria.jsx";
 import {ActualizarCategoria} from "../components/categoria/ActualizarCategoria.jsx";
 import {ComprarProducto} from "../components/productos/ComprarProducto.jsx";
 import {ActualizarProducto} from "../components/productos/ActualizarProducto.jsx";
+import {Footer} from "../components/Footer.jsx";
+import {Ingresar} from "../auth/pages/Ingresar.jsx";
+import {Register} from "../auth/pages/Registrar.jsx";
+import {CarrodeCompras} from "../components/carritoDeCompra/CarrodeCompras.jsx";
+import {Ofertas} from "../components/ofertas/Ofertas.jsx";
 
 export const LubricanteRoutes =()=> {
     return(
-        <>
+        <div className="flex flex-col min-h-screen">
             <Navbar/>
-            <Routes>
-                <Route path={"categorias"} element={<LubricantesPage/>} />
-                <Route path={"categorias/:idCategoria/productos"} element={<Tienda/>} />
-                <Route path={"categorias/agregar"} element={<AgregarCategoria/>} />
-                <Route path={"categorias/:idCategoria/productos/:idCompra/comprar"} element={<ComprarProducto/>} />
-                <Route path={"categorias/:idCategoria/productos/:idCompra/comprar/actualizar"} element={<ActualizarProducto/>} />
-                <Route path={"categorias/actualizar/:id"} element={<ActualizarCategoria/>} />
-                <Route path={"categorias/:idCategoria/productos/agregar"} element={<AgregarProducto/>} />
-                <Route path={"/"} element={<Navigate to={"/categorias"}/> } />
-            </Routes>
+            <div className="flex-grow">
+                <Routes>
+                    <Route path={"tienda"} element={<LubricantesPage/>} />
+                    <Route path={"categorias/:idCategoria/productos"} element={<Tienda/>} />
+                    <Route path={"categorias/agregar"} element={<AgregarCategoria/>} />
+                    <Route path={"categorias/:idCategoria/productos/:idCompra/comprar"} element={<ComprarProducto/>} />
+                    <Route path={"/ofertas/:idCompra/comprar"} element={<ComprarProducto/>} />
+                    <Route path={"categorias/:idCategoria/productos/:idCompra/comprar/actualizar"} element={<ActualizarProducto/>} />
+                    <Route path={"/ofertas/:idCompra/comprar/actualizar"} element={<ActualizarProducto/>} />
+                    <Route path={"categorias/actualizar/:id"} element={<ActualizarCategoria/>} />
+                    <Route path={"categorias/:idCategoria/productos/agregar"} element={<AgregarProducto/>} />
+                    <Route path={"carrito"} element={<CarrodeCompras/>} />
+                    <Route path={"/login"} element={<Ingresar/>} />
+                    <Route path={"/register"} element={<Register/>} />
+                    <Route path={"/ofertas"} element={<Ofertas/>} />
+                    <Route path={"/"} element={<Navigate to={"/tienda"}/> } />
+                </Routes>
+            </div>
+
+            <Footer/>
 
 
-        </>
+        </div>
     )
 }

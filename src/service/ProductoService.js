@@ -21,6 +21,16 @@ export const traerProductoById = async (idProducto)=> {
     }
 }
 
+export const traerProductoByDescuento = async ()=> {
+    try{
+        const response = await axios.get(`${BASE_URL}/productos/descuento`);
+        return response.data;
+    } catch (e){
+        console.error(e);
+    }
+}
+
+
 export const guardarProducto = async (producto,categoria)=> {
     const {nombre,marca,cantidad,precio, descuento, imagen} = producto;
     try {
@@ -39,14 +49,14 @@ export const guardarProducto = async (producto,categoria)=> {
 }
 
 
-export const actualizarProducto = async(id, producto)=> {
-    const {nombre,cantidad,precio, descuento, imagen} = producto;
+export const actualizarProductoBackend = async( producto)=> {
+    const {id,nombre,marca,cantidad,precio, descuento, imagen,categoria} = producto;
 
 
     try {
         console.log(producto);
-        const response = await axios.post(`${BASE_URL}/productos/guardar`,{
-            nombre,cantidad,precio, descuento, imagen,categoria
+        const response = await axios.put(`${BASE_URL}/productos/actualizar/${id}`,{
+           id, nombre,marca,cantidad,precio, descuento, imagen,categoria
 
         })
         console.log(response.data);

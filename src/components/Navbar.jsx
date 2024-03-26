@@ -1,4 +1,16 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {  faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "../auth/hooks/useAuth.js";
+
+
+
 export const Navbar =()=> {
+    const { login, handlerLogout } = useAuth();
+    const navigate = useNavigate()
+    const verOfertas =()=> {
+        navigate("/ofertas")
+    }
 
     return(
         <nav className={"bg-black grid grid-cols-4 py-4 px-6"}>
@@ -19,13 +31,18 @@ export const Navbar =()=> {
             <div className={"flex justify-between col-span-2 items-center mx-2"}>
 
               <div className={"flex "}>
-                  <div className="text-white mr-4">OFERTAS</div>
-                  <div className="text-white">CATEGORIAS</div>
+                  <div className="text-white mr-4">CATEGORIAS</div>
+                  <button className="text-white" onClick={verOfertas}>OFERTAS</button>
 
               </div>
-                <div>
-                    <div className=" flex text-white mr-4">OMAR</div>
+                <div className={"flex relative"}>
+                    <div className="flex text-white mr-2">{login.user?.username}</div>
+                    <div className="relative">
+                        <p className={"absolute -top-2 -right-2 bg-white rounded-full text-black w-4 h-4 flex justify-center items-center"}>1</p>
+                        <p><FontAwesomeIcon className={"h-6 text-white"} icon={faCartPlus}/></p>
+                    </div>
                 </div>
+
 
             </div>
         </nav>

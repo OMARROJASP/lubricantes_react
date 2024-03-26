@@ -13,9 +13,6 @@ export const AgregarProducto = () => {
         nombre: "", cantidad: "", precio: "", descuento: "", imagen: "",marca:""
     });
 
-
-
-
     const { nombre, cantidad, precio, descuento, imagen, marca } = productInfo;
 
     const handleChange = ({ target }) => {

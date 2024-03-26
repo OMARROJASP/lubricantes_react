@@ -1,6 +1,6 @@
 import {useCategoria} from "../../hooks/useCategoria.js";
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import { useState} from "react";
+
 export const ActualizarCategoria =()=> {
 
 

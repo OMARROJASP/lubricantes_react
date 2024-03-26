@@ -2,10 +2,13 @@ import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {useProducto} from "../../hooks/useProducto.js";
 import {useEffect, useState} from "react";
 import {traerProductoById} from "../../service/ProductoService.js";
+import {useAuth} from "../../auth/hooks/useAuth.js";
+
 
 export const ComprarProducto =()=> {
+    const { login } = useAuth();
     const {idCompra,idCategoria} = useParams();
-    const {comprarProductoBackend} = useProducto();
+    const {comprarProductoBackend, cargarFormulario,selecionarFormulario} = useProducto();
 
     const navigate = useNavigate();
     const [cantidad, setCantidad] = useState(0);
@@ -13,11 +16,12 @@ export const ComprarProducto =()=> {
     const [producto, setProducto] = useState([])
     const [descripcion,setDescripcion] = useState(true);
     const [especificacion, setEspecificacion] = useState(false);
-    const [actualizar, setActualizar] = useState(false);
+    const [actualizarModal, setActualizarModal] = useState(false);
 
     const cargarProducto = async ()=> {
         const result = await traerProductoById(idCompra);
         setProducto(result);
+
     }
 
     const aumentarCantidad=()=> {
@@ -25,7 +29,10 @@ export const ComprarProducto =()=> {
     }
 
     const disminuirCantidad=()=> {
-        setCantidad(cantidad-1)
+        if(cantidad>0){
+
+            setCantidad(cantidad-1)
+        }
     }
     const SelectionDescripcion =()=> {
         setDescripcion(!descripcion)
@@ -36,12 +43,14 @@ export const ComprarProducto =()=> {
         setDescripcion(!descripcion)
     }
 
-    const ActualizarProducto =( )=> {
-        navigate("/actualizar")
+    const ActualizarProducto =( product)=> {
+        cargarFormulario(product)
+        navigate(`/categorias/${idCategoria}/productos/${idCompra}/comprar/actualizar`)
     }
 
     useEffect(() => {
         cargarProducto()
+
     }, [idCompra]);
 
     return(
@@ -137,25 +146,31 @@ export const ComprarProducto =()=> {
                                     <p>Te ofrecemos los siguientes metodos de pago</p>
                                     <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZa9stluxuArfKQHtToXyOJoDSyNgmHsLOrA&s"}/>
                                 </div>
-                                <div className="flex justify-around items-center">
-                                    <div>
-                                        <button
-                                            className="bg-green-600 text-white rounded-md m-2  p-2 text-sm"
-                                            to={`/categorias/${idCategoria}/productos/${idCompra}/comprar/actualizar`}
-                                        >
-                                            Actualizar
-                                        </button>
-                                    </div>
-                                    <div >
-                                        <button
-                                            className="bg-red-600 text-white rounded-md m-2 p-2 text-sm"
-                                        >
-                                            Eliminar
-                                        </button>
-                                    </div>
+                                {
+                                    !login.isAdmin || (
+                                        <div className="flex justify-around items-center">
+                                            <div>
+                                                <button
+                                                    className="bg-green-600 text-white rounded-md m-2  p-2 text-sm"
+                                                    onClick={()=>ActualizarProducto(producto)}
+                                                >
+                                                    Actualizar
+                                                </button>
+                                            </div>
+                                            <div >
+                                                <button
+                                                    className="bg-red-600 text-white rounded-md m-2 p-2 text-sm"
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            </div>
 
 
-                                </div>
+                                        </div>
+                                    )
+                                }
+
+
                             </div>
                         </div>
 

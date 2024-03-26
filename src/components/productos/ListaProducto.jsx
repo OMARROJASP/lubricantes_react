@@ -3,9 +3,10 @@ import {Producto} from "./Producto.jsx";
 import {useProducto} from "../../hooks/useProducto.js";
 import {NavLink, useParams} from "react-router-dom";
 import {useCategoria} from "../../hooks/useCategoria.js";
+import {useAuth} from "../../auth/hooks/useAuth.js";
 
 export const ListaProducto =()=> {
-
+    const { login } = useAuth();
     const {idCategoria} = useParams();
     const {cargarCategoriarById} = useCategoria();
     const {productos, cargarProductosBackend } = useProducto();
@@ -43,15 +44,21 @@ export const ListaProducto =()=> {
                        <h1>{categoria.nombre}</h1>
 
                    </div>
-                   <div>
-                       <NavLink
-                           className={"mr-4 p-2 rounded-2xl text-white bg-green-500"}
-                           to={'agregar'}
-                       >
-                           Agregar Producto
-                       </NavLink>
+                   {
+                       !login.isAdmin || (
+                           <div>
+                               <NavLink
+                                   className={"mr-4 p-2 rounded-2xl text-white bg-green-500"}
+                                   to={'agregar'}
+                               >
+                                   Agregar Producto
+                               </NavLink>
 
-                   </div>
+                           </div>
+                       )
+                   }
+
+
                </div>
                 <div >
                     {productos.length === 0 ? (

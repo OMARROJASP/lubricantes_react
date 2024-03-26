@@ -5,9 +5,9 @@ export const formularioVacioProducto = {
     imagen:"",
     categoria: "",
     nombre: "",
-    cantidad: "",
-    precio:"",
-    descuento:null
+    cantidad: 0,
+    precio:0,
+    descuento:0
 
 }
 

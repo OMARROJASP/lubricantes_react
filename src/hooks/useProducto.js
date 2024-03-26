@@ -1,6 +1,18 @@
 import {useDispatch, useSelector} from "react-redux";
-import {actualizarProducto, guardarProducto, traerProductoById, traerProductos} from "../service/ProductoService.js";
-import {agregarProducto, cargarProducto, filtrarProductos,filtrarProductosPorPrecio} from "../store/slices/producto/productoSlice.js";
+import {
+    actualizarProductoBackend,
+    guardarProducto, traerProductoByDescuento,
+    traerProductoById,
+    traerProductos
+} from "../service/ProductoService.js";
+import {
+    actualizarProducto,
+    agregarProducto,
+    cargarProducto,
+    filtrarProductos,
+    filtrarProductosPorPrecio, onCerrarFormularioSelecionado,
+    onSeleccionarFormulario
+} from "../store/slices/producto/productoSlice.js";
 import {traerByCategoria} from "../service/CategoriaService.js";
 
 export const useProducto = ()=> {
@@ -16,6 +28,11 @@ export const useProducto = ()=> {
         dispatch(cargarProducto(result))
     }
 
+    const cargarProductosByDescuentoBackend =async ()=> {
+        const result = await traerProductoByDescuento();
+        dispatch(cargarProducto(result))
+    }
+
     const guardarProductoBackend = async (producto,idCategoria)=> {
 
         const  categoria = await traerByCategoria(idCategoria);
@@ -25,7 +42,7 @@ export const useProducto = ()=> {
                 response = await guardarProducto(producto,categoria);
                 dispatch(agregarProducto(response))
             }else{
-                response = await actualizarProducto(producto.id,producto);
+                response = await actualizarProductoBackend(producto);
                 dispatch(actualizarProducto(response))
             }
         }catch (e) {
@@ -55,6 +72,14 @@ export const useProducto = ()=> {
         return result;
     }
 
+    const cargarFormulario =(producto)=> {
+        dispatch(onSeleccionarFormulario(producto))
+    }
+
+    const limpiarFormulario =()=> {
+        dispatch(onCerrarFormularioSelecionado())
+    }
+
     return{
         productos,
         selecionarFormulario,
@@ -63,7 +88,9 @@ export const useProducto = ()=> {
         comprarProductoBackend,
         filtrarProductosPorMarca,
         filtrarProductosPorPrecios,
-
+        cargarProductosByDescuentoBackend,
+        cargarFormulario,
+        limpiarFormulario
     }
 
 

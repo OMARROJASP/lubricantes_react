@@ -2,13 +2,14 @@ import {Categoria} from "./Categoria.jsx";
 import {NavLink} from "react-router-dom";
 import {useCategoria} from "../../hooks/useCategoria.js";
 import {useEffect} from "react";
+import {useAuth} from "../../auth/hooks/useAuth.js";
 
 
 
 
 
 export const ListaCategoria =()=> {
-
+    const { login } = useAuth();
     const {categorias,cargarCategoriasBackend,seleccionarFormulario }= useCategoria();
 
 
@@ -31,15 +32,20 @@ export const ListaCategoria =()=> {
                        <h1 className={"text-3xl font-bold"}>CATEGORIAS</h1>
 
                    </div>
-                   <div>
-                       <NavLink
-                           className={"mr-4 p-2 rounded-2xl text-white bg-green-500"}
-                           to={'agregar'}
-                       >
-                           Agregar Categoria
-                       </NavLink>
+                   {
+                       !login.isAdmin ||
+                       <div >
+                           <NavLink
+                               className={"mr-4 p-2 rounded-2xl text-white bg-green-500"}
+                               to={'agregar'}
+                           >
+                               Agregar Categoria
+                           </NavLink>
 
-                   </div>
+                       </div>
+                   }
+
+
                </div>
                <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4"}>
                    {
