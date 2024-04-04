@@ -32,6 +32,7 @@ export const LubricanteRoutes =()=> {
                     <Route path={"/login"} element={<Ingresar/>} />
                     <Route path={"/register"} element={<Register/>} />
                     <Route path={"/ofertas"} element={<Ofertas/>} />
+                    <Route path={"categorias/:idCategoria/productos/:idCompra/comprar/pagar"} element={<CarrodeCompras/>} />
                     <Route path={"/"} element={<Navigate to={"/tienda"}/> } />
                 </Routes>
             </div>

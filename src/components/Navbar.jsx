@@ -36,7 +36,7 @@ export const Navbar =()=> {
 
               </div>
                 <div className={"flex relative"}>
-                    <div className="flex text-white mr-2">{login.user?.username}</div>
+                    <div className="flex text-white mr-2">{login.user?.username || (<p>Iniciar Sesion</p>)}</div>
                     <div className="relative">
                         <p className={"absolute -top-2 -right-2 bg-white rounded-full text-black w-4 h-4 flex justify-center items-center"}>1</p>
                         <p><FontAwesomeIcon className={"h-6 text-white"} icon={faCartPlus}/></p>

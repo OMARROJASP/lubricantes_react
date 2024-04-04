@@ -92,6 +92,4 @@ export const useProducto = ()=> {
         cargarFormulario,
         limpiarFormulario
     }
-
-
 }

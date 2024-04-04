@@ -6,6 +6,7 @@ import {useAuth} from "../../auth/hooks/useAuth.js";
 
 
 export const ComprarProducto =()=> {
+
     const { login } = useAuth();
     const {idCompra,idCategoria} = useParams();
     const {comprarProductoBackend, cargarFormulario,selecionarFormulario} = useProducto();
@@ -16,12 +17,17 @@ export const ComprarProducto =()=> {
     const [producto, setProducto] = useState([])
     const [descripcion,setDescripcion] = useState(true);
     const [especificacion, setEspecificacion] = useState(false);
-    const [actualizarModal, setActualizarModal] = useState(false);
+    const [modal, setModal] = useState(true);
 
     const cargarProducto = async ()=> {
         const result = await traerProductoById(idCompra);
         setProducto(result);
 
+    }
+
+
+    const cambiarModal =()=> {
+        setModal(!modal);
     }
 
     const aumentarCantidad=()=> {
@@ -43,9 +49,12 @@ export const ComprarProducto =()=> {
         setDescripcion(!descripcion)
     }
 
-    const ActualizarProducto =( product)=> {
+        const ActualizarProducto =( product)=> {
         cargarFormulario(product)
         navigate(`/categorias/${idCategoria}/productos/${idCompra}/comprar/actualizar`)
+    }
+    const comprar =()=> {
+        navigate(`/categorias/${idCategoria}/productos/${idCompra}/comprar/pagar`)
     }
 
     useEffect(() => {
@@ -122,7 +131,7 @@ export const ComprarProducto =()=> {
                                             </div>
 
                                             <div>
-                                                <button className={"bg-amber-400 rounded-full text-md text-white  font-bold p-1"}> Comprar </button>
+                                                <button onClick={cambiarModal} className={"bg-amber-400 rounded-full text-md text-white  font-bold p-1"}> Comprar </button>
                                             </div>
                                         </div>
                                     )
@@ -146,6 +155,40 @@ export const ComprarProducto =()=> {
                                     <p>Te ofrecemos los siguientes metodos de pago</p>
                                     <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZa9stluxuArfKQHtToXyOJoDSyNgmHsLOrA&s"}/>
                                 </div>
+
+                                {modal || (
+                                    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
+                                        <div className="bg-white rounded-xl p-4">
+                                            <div className={"text-center"}>
+                                                <div>
+                                                    <p className="text-2xl text-green-600 font-bold">Producto añadido con éxito al carrito</p>
+                                                </div>
+
+                                                <div className="grid grid-cols-2 gap-4">
+
+                                                    <div className="flex items-center uppercase">
+                                                        <img src={producto.imagen} className="w-24 h-auto" alt="Producto" />
+                                                        <div className="ml-4">
+                                                            <p className="text-xl">{producto.nombre} - {producto.marca}</p>
+                                                            <p className="text-lg">S/. {producto.precio} </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex justify-end items-center ">
+                                                        <button onClick={cambiarModal} className=" px-4 py-2 bg-green-500 text-white rounded-md mr-2">Seguir Comprando</button>
+                                                        <button onClick={comprar} className="px-4 py-2 bg-amber-400 text-white rounded-md">Ir al carrito</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                )
+
+                                }
+
                                 {
                                     !login.isAdmin || (
                                         <div className="flex justify-around items-center">
