@@ -1,4 +1,5 @@
 import axios from "axios";
+import lubricanteApi from "../apis/lubricanetsApi.js";
 
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}`;
 
@@ -36,7 +37,7 @@ export const guardarProducto = async (producto,categoria)=> {
     try {
         console.log(producto);
 
-        const response = await axios.post(`${BASE_URL}/productos/guardar`,{
+        const response = await lubricanteApi.post(`${BASE_URL}/productos/guardar`,{
             nombre,marca,cantidad,precio, descuento, imagen,categoria
 
         })
@@ -55,7 +56,7 @@ export const actualizarProductoBackend = async( producto)=> {
 
     try {
         console.log(producto);
-        const response = await axios.put(`${BASE_URL}/productos/actualizar/${id}`,{
+        const response = await lubricanteApi.put(`${BASE_URL}/productos/actualizar/${id}`,{
            id, nombre,marca,cantidad,precio, descuento, imagen,categoria
 
         })

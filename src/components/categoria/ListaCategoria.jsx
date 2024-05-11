@@ -37,7 +37,7 @@ export const ListaCategoria =()=> {
                        <div >
                            <NavLink
                                className={"mr-4 p-2 rounded-2xl text-white bg-green-500"}
-                               to={'agregar'}
+                               to={'/tienda/categoria/agregar'}
                            >
                                Agregar Categoria
                            </NavLink>

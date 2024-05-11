@@ -1,12 +1,12 @@
-import axios from "axios";
 import lubricanteApi from "../apis/lubricanetsApi.js";
+import axios from "axios";
 
 
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}`;
 
 export const findAll = async() => {
     try {
-        const response = await axios.get(BASE_URL);
+        const response = await lubricanteApi.get(BASE_URL);
         return response;
     } catch (error) {
         console.error(error);
@@ -25,18 +25,20 @@ export const findByUsuarioService = async (usuario)=> {
 
 
 export const save = async ({ nombre,contrasena, correo}) => {
+
     try {
-        return await axios.post(`${BASE_URL}/usuarios`, {
+        const response = await axios.post(`${BASE_URL}/usuarios`, {
             nombre,contrasena, correo
         });
-    } catch (error) {
-        throw error;
+        return response;
+    }catch (e) {
+        console.log(e)
     }
 }
 
 export const update = async({ id,  nombre, correo }) => {
     try {
-        return await axios.put(`${BASE_URL}/${id}`, {
+        return await lubricanteApi.put(`${BASE_URL}/${id}`, {
             nombre, correo
         });
     } catch (error) {
@@ -46,7 +48,7 @@ export const update = async({ id,  nombre, correo }) => {
 
 export const remove = async (id) => {
     try {
-        await axios.delete(`${BASE_URL}/${id}`);
+        await lubricanteApi.delete(`${BASE_URL}/${id}`);
     } catch (error) {
         throw error;
     }

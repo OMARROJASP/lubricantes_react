@@ -4,8 +4,6 @@ export const loginUser = async ({ nombre, contrasena }) => {
 
 
     try {
-        console.log(nombre)
-        console.log(contrasena)
         const response = await axios.post('http://localhost:8080/login', {
             nombre,
             contrasena
@@ -22,3 +20,4 @@ export const loginUser = async ({ nombre, contrasena }) => {
         throw error; // Se relanza el error para que el llamador pueda manejarlo adecuadamente
     }
 }
+

@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useAuth} from "../hooks/useAuth.js";
 import {useUsuario} from "../../hooks/useUsuario.js";
+import {useNavigate} from "react-router-dom";
 
 
 const initialLoginForm = {
@@ -10,8 +11,10 @@ const initialLoginForm = {
     correo:'',
 }
 export const Register =()=> {
+    const navigate = useNavigate();
 
   const {  handlerAddUser} = useUsuario()
+
 
     const {handlerLogin} = useAuth();
 
@@ -30,16 +33,16 @@ export const Register =()=> {
         event.preventDefault();
 
 
-        if(!nombre || !contrasena){
+        if(!nombre || !contrasena || !correo){
             console.log("username y password invalidos");
         }
 
         console.log(loginForm)
         handlerAddUser(loginForm)
-        handlerLogin({nombre, contrasena});
+        //handlerLogin({nombre, contrasena});
         setLoginForm(initialLoginForm);
-
-        console.log('Iniciar sesión con:', nombre, contrasena);
+        navigate('/login')
+        console.log('Iniciar sesión con:', nombre);
     };
     return(
         <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">

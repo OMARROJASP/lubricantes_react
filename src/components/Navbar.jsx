@@ -8,6 +8,14 @@ import {useAuth} from "../auth/hooks/useAuth.js";
 export const Navbar =()=> {
     const { login, handlerLogout } = useAuth();
     const navigate = useNavigate()
+
+    const handlerCarBuy = ()=> {
+        if(login.user){
+            navigate(`tienda/comprar/pagar`)
+        }else{
+            navigate(`/login`)
+        }
+    }
     const verOfertas =()=> {
         navigate("/ofertas")
     }
@@ -39,7 +47,7 @@ export const Navbar =()=> {
                     <div className="flex text-white mr-2">{login.user?.username || (<p>Iniciar Sesion</p>)}</div>
                     <div className="relative">
                         <p className={"absolute -top-2 -right-2 bg-white rounded-full text-black w-4 h-4 flex justify-center items-center"}>1</p>
-                        <p><FontAwesomeIcon className={"h-6 text-white"} icon={faCartPlus}/></p>
+                        <p><FontAwesomeIcon onClick={handlerCarBuy} className={"h-6 text-white"} icon={faCartPlus}/></p>
                     </div>
                 </div>
 

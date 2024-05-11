@@ -10,7 +10,7 @@ export const Categoria=({category})=> {
     const navigate = useNavigate();
     const seleccionarCategoria =(categoria)=> {
         cargarFormulario(categoria)
-        navigate(`actualizar/${categoria.id}`);
+        navigate(`/tienda/categoria/actualizar/${categoria.id}`);
     }
 
     const deleteCategoria =(id)=> {

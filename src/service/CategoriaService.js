@@ -1,4 +1,5 @@
 import axios from "axios";
+import lubricanteApi from "../apis/lubricanetsApi.js";
 
 
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}`;
@@ -29,7 +30,7 @@ export const traerByCategoria = async (idCategoria)=> {
 export const guardarCategoria = async (categoria)=> {
     const {nombre,imagen} = categoria;
     try {
-        const response = await axios.post(`${BASE_URL}/categorias/guardar`,{
+        const response = await lubricanteApi.post(`${BASE_URL}/categorias/guardar`,{
             nombre, imagen
         })
 
@@ -45,7 +46,7 @@ export const actualizarCategoriaBackend = async (categoria) => {
     console.log("Iniciando solicitud de actualización de categoría...");
 
     try {
-        const response = await axios.put(`${BASE_URL}/categorias/actualizar/${id}`, {
+        const response = await lubricanteApi.put(`${BASE_URL}/categorias/actualizar/${id}`, {
             nombre,
             imagen
         });
@@ -61,7 +62,7 @@ export const actualizarCategoriaBackend = async (categoria) => {
 
 export const eliminarCategoriaBackend = async(id)=> {
     try {
-        await axios.delete(`${BASE_URL}/categorias/eliminar/${id}`)
+        await lubricanteApi.delete(`${BASE_URL}/categorias/eliminar/${id}`)
     }catch (error) {
         console.error("Error al eliminar la categoría:", error);
         throw new Error("Error al eliminar la categoría. Por favor, inténtalo de nuevo más tarde.");
