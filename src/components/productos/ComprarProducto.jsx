@@ -69,8 +69,6 @@ export const ComprarProducto =()=> {
 
             const detalles = await findAllDetalleByUsuarioByVentasService(login.user?.username);
             setListDetalle(detalles);
-            console.log(detalles);
-            console.log(listDetalle);
 
             const ubicadoProducto = detalles.some(d => d.producto === producto.id);
             console.log(ubicadoProducto);
@@ -80,9 +78,7 @@ export const ComprarProducto =()=> {
                 if (detalleProducto) {
                     updateCarritoVenta(
                         detalleProducto,
-                        detalleProducto.cantidad + cantidad,
-                        (detalleProducto.cantidad + cantidad) * producto.precio)
-                    console.log(detalleProducto.cantidad + cantidad)
+                        detalleProducto.cantidad + cantidad)
                 }
             } else {
                 guardarCarritoCompra(detalle, login.user?.username)

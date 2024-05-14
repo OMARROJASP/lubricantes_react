@@ -22,8 +22,17 @@ export const findAllDetalleByUsuarioByVentasService = async (usuario)=> {
     }
 }
 
-export const updateDetalleByIdService = async (detalle,cantidad, subTotal)=> {
+export const findAllDetalleByUsuarioByVentasServiceSimple = async (usuario)=> {
+    try {
+        return await lubricanteApi.get(`${BASE_URL}/detalle/ventas/${usuario}`);
+    }catch (e) {
+        console.log(e)
+    }
+}
+
+export const updateDetalleByIdService = async (detalle,cantidad)=> {
     const {id,pedido,producto,precioUnitario} = detalle;
+    let subTotal = (cantidad*precioUnitario).toFixed(2);
     try {
         const response = await lubricanteApi.put(`${BASE_URL}/detalle/update/${id}`,{
             pedido,producto,cantidad,precioUnitario,subTotal
@@ -76,3 +85,4 @@ export const findAllPedidoByUsuarioService = async (usuario)=> {
         console.log(e)
     }
 }
+

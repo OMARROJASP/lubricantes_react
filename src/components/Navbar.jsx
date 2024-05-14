@@ -20,10 +20,14 @@ export const Navbar =()=> {
         navigate("/ofertas")
     }
 
+    const goPaginaPrincipal=()=>{
+        navigate("/tienda")
+    }
+
     return(
         <nav className={"bg-black grid grid-cols-4 py-4 px-6"}>
             <div className={""}>
-                <p className={"text-white text-4xl"}><span className={"text-amber-400"}>RUKA</span>NAS</p>
+                <p onClick={goPaginaPrincipal} className={" cursor-pointer text-white text-4xl"}><span className={"text-amber-400"}>RUKA</span>NAS</p>
             </div>
             <div className={""}>
                 <div className="flex items-center bg-white text-black rounded py-2 px-4 focus:outline-none">
@@ -47,7 +51,7 @@ export const Navbar =()=> {
                     <div className="flex text-white mr-2">{login.user?.username || (<p>Iniciar Sesion</p>)}</div>
                     <div className="relative">
                         <p className={"absolute -top-2 -right-2 bg-white rounded-full text-black w-4 h-4 flex justify-center items-center"}>1</p>
-                        <p><FontAwesomeIcon onClick={handlerCarBuy} className={"h-6 text-white"} icon={faCartPlus}/></p>
+                        <p><FontAwesomeIcon onClick={handlerCarBuy} className={"cursor-pointer h-6 text-white"} icon={faCartPlus}/></p>
                     </div>
                 </div>
 
