@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const lubricanteApi = axios.create({
-    baseURL:'http://localhost:8080'
+    baseURL:'https://charismatic-tranquility-production.up.railway.app'
 })
 
 lubricanteApi.interceptors.request.use(config => {

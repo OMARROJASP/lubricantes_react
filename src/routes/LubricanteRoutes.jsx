@@ -12,6 +12,7 @@ import {Ingresar} from "../auth/pages/Ingresar.jsx";
 import {Register} from "../auth/pages/Registrar.jsx";
 import {CarrodeCompras} from "../components/carritoDeCompra/CarrodeCompras.jsx";
 import {Ofertas} from "../components/ofertas/Ofertas.jsx";
+import {IngresarDatosTarjeta} from "../components/venta/IngresarDatosTarjeta.jsx";
 
 export const LubricanteRoutes =()=> {
     return(
@@ -34,6 +35,7 @@ export const LubricanteRoutes =()=> {
                     <Route path={"/register"} element={<Register/>} />
                     <Route path={"/ofertas"} element={<Ofertas/>} />
                     <Route path={"tienda/comprar/pagar"} element={<CarrodeCompras/>} />
+                    <Route path={"tienda/comprar/pagar/datos"} element={<IngresarDatosTarjeta/>} />
                     <Route path={"categorias/:idCategoria/productos/:idCompra/comprar/pagar"} element={<CarrodeCompras/>} />
                     <Route path={"/"} element={<Navigate to={"/tienda"}/> } />
                 </Routes>

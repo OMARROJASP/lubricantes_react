@@ -23,6 +23,9 @@ export const Navbar =()=> {
     const goPaginaPrincipal=()=>{
         navigate("/tienda")
     }
+    const irInicio=()=>{
+        navigate("/tienda")
+    }
 
     return(
         <nav className={"bg-black grid grid-cols-4 py-4 px-6"}>
@@ -43,7 +46,7 @@ export const Navbar =()=> {
             <div className={"flex justify-between col-span-2 items-center mx-2"}>
 
               <div className={"flex "}>
-                  <div className="text-white mr-4">CATEGORIAS</div>
+                  <div className="text-white mr-4" onClick={irInicio}>INICIO</div>
                   <button className="text-white" onClick={verOfertas}>OFERTAS</button>
 
               </div>

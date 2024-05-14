@@ -4,7 +4,7 @@ export const loginUser = async ({ nombre, contrasena }) => {
 
 
     try {
-        const response = await axios.post('http://localhost:8080/login', {
+        const response = await axios.post('https://charismatic-tranquility-production.up.railway.app/login', {
             nombre,
             contrasena
         });

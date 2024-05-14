@@ -1,15 +1,13 @@
-import { useEffect, useState, useCallback } from "react";
-import { faTrash, faSquareCaretUp, faSquareCaretDown,faSquarePlus,faSquareMinus,faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from "react";
+import { faSquarePlus,faSquareMinus,faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useProducto } from "../../hooks/useProducto.js";
-import { useCarrito } from "../../hooks/useCarrito.js";
 
 export const DetalleCompraProducto = (
     { id, producto, cantidad, precioUnitario, subTotal,
         carrito, onDelete, onUpdate,sumaProducto,obtenerProductos }) => {
 
     const { comprarProductoBackend } = useProducto();
-    const { carritos } = useCarrito();
     const [product, setProduct] = useState({});
     const [cant, setCant] = useState(cantidad);
     const [total, setTotal] = useState(subTotal);
@@ -39,7 +37,7 @@ export const DetalleCompraProducto = (
     },[cant] );
 
     return (
-        <div className={"grid grid-cols-7 bg-white border-4 m-4 rounded-xl p-2 "}>
+        <div className={"grid grid-cols-7 bg-white border-4 m-4 rounded-xl p-2 font-medium "}>
             <div className={"col-span-3"}>
                 <p className={"my-2"}>Producto: {product.nombre}</p>
                 <div className={"flex items-center  "}>
@@ -52,8 +50,8 @@ export const DetalleCompraProducto = (
                     </p>
 
                 </div>
-                <p className={"my-2"}>Precio Unitario : {precioUnitario}</p>
-                <p className={"my-2"}>Total : {total}</p>
+                <p className={"my-2"}>Precio Unitario : S/ {precioUnitario}</p>
+                <p className={"my-2"}>Total : S/ {total}</p>
             </div>
 
             <div className="flex justify-center items-center col-span-3 h-40">

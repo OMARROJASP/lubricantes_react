@@ -2,12 +2,12 @@ import { useCarrito } from "../../hooks/useCarrito.js";
 import { DetalleCompraProducto } from "./DetalleCompraProducto.jsx";
 import {useAuth} from "../../auth/hooks/useAuth.js";
 import {useEffect, useState} from "react";
-import {ResumenCompra} from "./ResumenCompra.jsx";
-import {ProductoResumen} from "./ProductoResumen.jsx";
 import {findAllDetalleByUsuarioByVentasServiceSimple} from "../../service/CarritoService.js";
+import {useNavigate} from "react-router-dom";
 
 export const CarrodeCompras = () => {
     const { login } = useAuth();
+    const navigate = useNavigate();
     const { carritos, cargarCarritoCompras, updateCarritoVenta, eliminarCarritoCompra } = useCarrito();
 
     const [total, setTotal]= useState(0);
@@ -29,6 +29,12 @@ export const CarrodeCompras = () => {
         }
     }
 
+    const goBuy=()=> {
+        navigate("datos")
+    }
+
+
+
     const sumaProducto = (suma)=> {
         setTotal(total+suma);
     }
@@ -44,8 +50,8 @@ export const CarrodeCompras = () => {
             <h1 className=" my-4 text-center text-4xl text-amber-400 font-extrabold">
                 Carrito de Compras
             </h1>
-            <div className="flex justify-center">
-                <div className="w-2/6 ">
+            <div className="sm:flex sm:justify-center grid grid-rows-2 ">
+                <div className="w-3/8 ">
                     <div>
                         {carritos.map(c =>
                             <ul key={c.id}>
@@ -68,7 +74,9 @@ export const CarrodeCompras = () => {
                         )}
                     </div>
                 </div>
-                <div className="w-1/6 border-4 border-gray-300 p-4 rounded-xl m-4">
+
+
+                <div className="w-2/8 border-4 border-gray-300 p-4 rounded-xl m-4">
                     <div>
                         <p className="text-xl font-semibold mb-4">Resumen de la Compra</p>
                         {cargando ? (
@@ -84,22 +92,44 @@ export const CarrodeCompras = () => {
                         ) : (
                             <>
                                 <hr className="my-4" />
-                                {carritos.map((c) => (
-                                    <ul key={c.id}>
-                                        <li>
-                                            <ProductoResumen
-                                                key={c.id}
-                                                producto={c.producto}
-                                                cantidad={c.cantidad}
-                                            />
-                                        </li>
-                                    </ul>
-                                ))}
+                                <div className=" mb-4 text-center">
+                                    <p className={"text-indigo-500 m-2"}>Agregar cupón de descuento</p>
+                                    <div className={"flex justify-center"}>
+                                        <input
+                                            type="text"
+                                            placeholder="Código"
+                                            className="px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-r-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        >
+                                            Aplicar
+                                        </button>
+                                    </div>
+                                </div>
                                 <hr className="my-4" />
-                                <p className="text-xl font-semibold mb-4">Costo Total</p>
-                                <p className="text-2xl text-amber-500">s/ {total.toFixed(2)}</p>
+                                <div  className={"flex justify-around "}>
+                                    <p className="text-xl text-gray-400 mb-4">Subtotal</p>
+                                    <p className="text-xl text-gray-500">s/ {total.toFixed(2)}</p>
+                                </div>
+                                <div className={"flex justify-around "}>
+                                    <p className="text-xl text-gray-400 mb-4">Descuento</p>
+                                    <p className="text-xl text-gray-500">s/ 0.00</p>
+                                </div>
+
+                                <div className={"flex justify-around "}>
+                                    <p className="text-xl font-semibold mb-4">Costo Total</p>
+                                    <p className="text-xl text-amber-500">s/ {total.toFixed(2)}</p>
+                                </div>
+
+
+
+
+
                                 <div className="mt-6 flex justify-center">
-                                    <button className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded mr-4">
+                                    <button className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded mr-4" onClick={goBuy}>
+
                                         Pagar Ahora
                                     </button>
                                     <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded">
