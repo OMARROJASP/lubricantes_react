@@ -7,6 +7,7 @@ import {useCarrito} from "../../hooks/useCarrito.js";
 import { faXmark, faCirclePlus, faCircleMinus} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {findAllDetalleByUsuarioByVentasService} from "../../service/CarritoService.js";
+import imgPago from "./tarjetas.png"
 const arregloDetalle = {
     "id":0,
     "producto": 0,
@@ -111,11 +112,11 @@ export const ComprarProducto =()=> {
                             detalleProducto.cantidad+cantidad,
                             detalleProducto.subTotal + cantidad*producto.precio)
                         cargarCarritoCompras(login.user?.username)
-                        navigate(`/categorias/${idCategoria}/productos/${idCompra}/comprar/pagar`);
+                        navigate(`/tienda/comprar/pagar`);
                     }
                 } else {
                     guardarCarritoCompra(detalle, login.user?.username);
-                    navigate(`/categorias/${idCategoria}/productos/${idCompra}/comprar/pagar`);
+                    navigate(`/tienda/comprar/pagar`);
                 }
             }else{
                 alert("Debes insertar tus cuenta")
@@ -218,7 +219,7 @@ export const ComprarProducto =()=> {
 
                                 <div className={"m-2 mt-3.5 font-bold"}>
                                     <p>Te ofrecemos los siguientes metodos de pago</p>
-                                    <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZa9stluxuArfKQHtToXyOJoDSyNgmHsLOrA&s"}/>
+                                    <img src={imgPago}/>
                                 </div>
 
                                 {modal || (

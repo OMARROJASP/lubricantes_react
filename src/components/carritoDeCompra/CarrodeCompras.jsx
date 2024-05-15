@@ -53,7 +53,12 @@ export const CarrodeCompras = () => {
             <div className="sm:flex sm:justify-center grid grid-rows-2 ">
                 <div className="w-3/8 ">
                     <div>
-                        {carritos.map(c =>
+                        {carritos.length === 0  ?
+                            (
+                                <h1>No tiene productos en el carrito</h1>
+                            ):
+
+                            carritos.map(c =>
                             <ul key={c.id}>
                                 <li>
                                     <DetalleCompraProducto
