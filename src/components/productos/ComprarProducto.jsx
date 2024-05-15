@@ -1,37 +1,55 @@
-import {NavLink, useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import {useProducto} from "../../hooks/useProducto.js";
 import {useEffect, useState} from "react";
 import {traerProductoById} from "../../service/ProductoService.js";
 import {useAuth} from "../../auth/hooks/useAuth.js";
-
+import {useCarrito} from "../../hooks/useCarrito.js";
+import { faXmark, faCirclePlus, faCircleMinus} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {findAllDetalleByUsuarioByVentasService} from "../../service/CarritoService.js";
+import imgPago from "./tarjetas.png"
+const arregloDetalle = {
+    "id":0,
+    "producto": 0,
+    "cantidad": 1,
+    "precioUnitario": 0,
+    "subTotal": 0
+}
 
 export const ComprarProducto =()=> {
+
     const { login } = useAuth();
     const {idCompra,idCategoria} = useParams();
-    const {comprarProductoBackend, cargarFormulario,selecionarFormulario} = useProducto();
+    const { cargarFormulario} = useProducto();
 
+    const {cargarCarritoCompras,guardarCarritoCompra,updateCarritoVenta} = useCarrito();
     const navigate = useNavigate();
-    const [cantidad, setCantidad] = useState(0);
-
+    const [listDetalle,setListDetalle]=useState([])
+    const [cantidad, setCantidad] = useState(1);
+    const [detalle, setDetalle] = useState(arregloDetalle)
     const [producto, setProducto] = useState([])
     const [descripcion,setDescripcion] = useState(true);
     const [especificacion, setEspecificacion] = useState(false);
-    const [actualizarModal, setActualizarModal] = useState(false);
+    const [modal, setModal] = useState(true);
 
     const cargarProducto = async ()=> {
         const result = await traerProductoById(idCompra);
         setProducto(result);
-
+        setDetalle({...detalle, producto: result.id, precioUnitario: result.precio})
     }
-
+    const cambiarModal =()=> {
+        setModal(!modal);
+    }
     const aumentarCantidad=()=> {
-        setCantidad(cantidad+1)
+
+            setCantidad(cantidad + 1)
+            setDetalle({...detalle, cantidad: cantidad+1, subTotal: cantidad * producto.precio})
+
     }
-
     const disminuirCantidad=()=> {
-        if(cantidad>0){
-
+        if(cantidad>1){
             setCantidad(cantidad-1)
+            setDetalle({...detalle, cantidad: cantidad})
         }
     }
     const SelectionDescripcion =()=> {
@@ -42,10 +60,70 @@ export const ComprarProducto =()=> {
         setEspecificacion(!especificacion)
         setDescripcion(!descripcion)
     }
-
     const ActualizarProducto =( product)=> {
         cargarFormulario(product)
         navigate(`/categorias/${idCategoria}/productos/${idCompra}/comprar/actualizar`)
+    }
+    const seguirComprando =async ()=> {
+
+        if (login.user) {
+
+            const detalles = await findAllDetalleByUsuarioByVentasService(login.user?.username);
+            setListDetalle(detalles);
+
+            const ubicadoProducto = detalles.some(d => d.producto === producto.id);
+            console.log(ubicadoProducto);
+            if (ubicadoProducto) {
+                const detalleProducto = detalles.find(d => d.producto === producto.id);
+                console.log(detalleProducto);
+                if (detalleProducto) {
+                    updateCarritoVenta(
+                        detalleProducto,
+                        detalleProducto.cantidad + cantidad)
+                }
+            } else {
+                guardarCarritoCompra(detalle, login.user?.username)
+            }
+            cambiarModal()
+            setDetalle(arregloDetalle)
+        } else{
+            alert("Debe de insertar ru cuenta para poder comprar")
+        }
+
+
+
+
+    }
+    const comprar = async ()=> {
+
+
+        if(cantidad>0) {
+            if(login.user){
+            const detalles = await findAllDetalleByUsuarioByVentasService(login.user?.username);
+            setListDetalle(detalles);
+
+            const ubicadoProducto = detalles.some(d => d.producto === producto.id);
+            console.log(ubicadoProducto);
+                if (ubicadoProducto) {
+                    const detalleProducto = detalles.find(d => d.producto === producto.id);
+                    if (detalleProducto) {
+                        updateCarritoVenta(
+                            detalleProducto,
+                            detalleProducto.cantidad+cantidad,
+                            detalleProducto.subTotal + cantidad*producto.precio)
+                        cargarCarritoCompras(login.user?.username)
+                        navigate(`/tienda/comprar/pagar`);
+                    }
+                } else {
+                    guardarCarritoCompra(detalle, login.user?.username);
+                    navigate(`/tienda/comprar/pagar`);
+                }
+            }else{
+                alert("Debes insertar tus cuenta")
+                navigate(`/login`)
+            }
+        }
+        setDetalle(arregloDetalle)
     }
 
     useEffect(() => {
@@ -112,17 +190,14 @@ export const ComprarProducto =()=> {
                                     producto.cantidad > 0 && (
                                         <div className={"flex justify-around my-5"}>
                                             <div className={"flex justify-between"}>
-                                                <button
-                                                    onClick={disminuirCantidad}
-                                                    className={"bg-amber-400 rounded-full w-7 h-7 text-center text-white text-md font-black "}> - </button>
+                                                <FontAwesomeIcon onClick={disminuirCantidad} className={"h-7"} icon={faCircleMinus} style={{color: "#FFD43B",}} />
                                                 <p className={"mx-3"}>{cantidad}</p>
-                                                <button
-                                                    onClick={aumentarCantidad}
-                                                    className={"bg-amber-400 rounded-full w-7 h-7 text-center text-white text-md font-black"}> + </button>
-                                            </div>
+
+                                                <FontAwesomeIcon onClick={aumentarCantidad} className={"h-7"} icon={faCirclePlus} style={{color: "#FFD43B",}} />
+                                              </div>
 
                                             <div>
-                                                <button className={"bg-amber-400 rounded-full text-md text-white  font-bold p-1"}> Comprar </button>
+                                                <button onClick={cambiarModal} className={"bg-amber-400 rounded-full text-md text-white  font-bold p-1"}> Comprar </button>
                                             </div>
                                         </div>
                                     )
@@ -144,8 +219,43 @@ export const ComprarProducto =()=> {
 
                                 <div className={"m-2 mt-3.5 font-bold"}>
                                     <p>Te ofrecemos los siguientes metodos de pago</p>
-                                    <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZa9stluxuArfKQHtToXyOJoDSyNgmHsLOrA&s"}/>
+                                    <img src={imgPago}/>
                                 </div>
+
+                                {modal || (
+                                    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
+                                        <div className="bg-white rounded-xl p-4">
+                                            <div className={"text-center"}>
+                                                <div className={"flex justify-between items-center mx-3"}>
+                                                    <p className="text-2xl text-green-600 font-bold">Producto añadido con éxito al carrito</p>
+                                                    <FontAwesomeIcon onClick={cambiarModal} className={"h-8"} icon={faXmark} style={{color: "#e90c0c",}} />
+                                                </div>
+
+                                                <div className="grid grid-cols-2 gap-4">
+
+                                                    <div className="flex items-center uppercase">
+                                                        <img src={producto.imagen} className="w-24 h-auto" alt="Producto" />
+                                                        <div className="ml-4">
+                                                            <p className="text-xl">{producto.nombre} - {producto.marca}</p>
+                                                            <p className="text-lg">S/. {cantidad*producto.precio} </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex justify-end items-center ">
+                                                        <button onClick={seguirComprando} className=" px-4 py-2 bg-green-500 text-white rounded-md mr-2">Seguir Comprando</button>
+                                                        <button onClick={comprar} className="px-4 py-2 bg-amber-400 text-white rounded-md">Ir al carrito</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                )
+
+                                }
+
                                 {
                                     !login.isAdmin || (
                                         <div className="flex justify-around items-center">

@@ -12,6 +12,7 @@ import {Ingresar} from "../auth/pages/Ingresar.jsx";
 import {Register} from "../auth/pages/Registrar.jsx";
 import {CarrodeCompras} from "../components/carritoDeCompra/CarrodeCompras.jsx";
 import {Ofertas} from "../components/ofertas/Ofertas.jsx";
+import {IngresarDatosTarjeta} from "../components/venta/IngresarDatosTarjeta.jsx";
 
 export const LubricanteRoutes =()=> {
     return(
@@ -21,17 +22,21 @@ export const LubricanteRoutes =()=> {
                 <Routes>
                     <Route path={"tienda"} element={<LubricantesPage/>} />
                     <Route path={"categorias/:idCategoria/productos"} element={<Tienda/>} />
-                    <Route path={"categorias/agregar"} element={<AgregarCategoria/>} />
+                    <Route path={"/tienda/categoria/agregar"} element={<AgregarCategoria/>} />
                     <Route path={"categorias/:idCategoria/productos/:idCompra/comprar"} element={<ComprarProducto/>} />
                     <Route path={"/ofertas/:idCompra/comprar"} element={<ComprarProducto/>} />
                     <Route path={"categorias/:idCategoria/productos/:idCompra/comprar/actualizar"} element={<ActualizarProducto/>} />
                     <Route path={"/ofertas/:idCompra/comprar/actualizar"} element={<ActualizarProducto/>} />
-                    <Route path={"categorias/actualizar/:id"} element={<ActualizarCategoria/>} />
+
+                    <Route path={"tienda/categoria/actualizar/:id"} element={<ActualizarCategoria/>} />
                     <Route path={"categorias/:idCategoria/productos/agregar"} element={<AgregarProducto/>} />
                     <Route path={"carrito"} element={<CarrodeCompras/>} />
                     <Route path={"/login"} element={<Ingresar/>} />
                     <Route path={"/register"} element={<Register/>} />
                     <Route path={"/ofertas"} element={<Ofertas/>} />
+                    <Route path={"tienda/comprar/pagar"} element={<CarrodeCompras/>} />
+                    <Route path={"tienda/comprar/pagar/datos"} element={<IngresarDatosTarjeta/>} />
+                    <Route path={"categorias/:idCategoria/productos/:idCompra/comprar/pagar"} element={<CarrodeCompras/>} />
                     <Route path={"/"} element={<Navigate to={"/tienda"}/> } />
                 </Routes>
             </div>

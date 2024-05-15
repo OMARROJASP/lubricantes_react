@@ -2,7 +2,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {onLogin, onLogout} from "../../store/slices/auth/authSlice..js";
 import {loginUser} from "../service/AuthService.js";
-import {useState} from "react";
 
 export const useAuth =()=> {
 
@@ -17,7 +16,7 @@ export const useAuth =()=> {
             const response = await loginUser({nombre, contrasena});
             const token = response.data.token;
             const claims = JSON.parse(window.atob(token.split(".")[1]));
-            console.log(claims);
+
             const user = {username: claims.sub}
             dispatch(onLogin({user, isAdmin: claims.isAdmin}));
 
@@ -26,9 +25,6 @@ export const useAuth =()=> {
                 isAdmin: claims.isAdmin,
                 user,
             }));
-            console.log(user)
-            console.log(isAdmin)
-            console.log(isAuth)
             sessionStorage.setItem('token', `Bearer ${token}`);
             navigate('/tienda');
         } catch (error){
@@ -42,6 +38,8 @@ export const useAuth =()=> {
         }
 
     }
+
+
 
     const handlerLogout =()=>{
         dispatch(onLogout());

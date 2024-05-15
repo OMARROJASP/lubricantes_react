@@ -10,7 +10,6 @@ export const useUsuario = ()=> {
 
     const dispatch = useDispatch();
 
-    const navigate = useNavigate();
 
     const {login, handlerLogout} = useAuth();
 
@@ -30,7 +29,7 @@ export const useUsuario = ()=> {
                 dispatch(updateUsuario(response.data));
             }
 
-            navigate('/categorias')
+           // navigate('/categorias')
         }catch (e) {
             console.log(e);
         }

@@ -27,7 +27,6 @@ export const useCategoria =()=>{
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
     const cargarCategoriasBackend = async ()=> {
         const result = await traerCategorias();
         dispatch(cargarCategoria(result))
@@ -60,7 +59,7 @@ export const useCategoria =()=>{
                 dispatch(actualizarCategoria(response))
             }
 
-            navigate(`/categorias`);
+            navigate(`/tienda`);
         }catch (e) {
             console.error(e)
         }

@@ -14,12 +14,13 @@ import {
     onSeleccionarFormulario
 } from "../store/slices/producto/productoSlice.js";
 import {traerByCategoria} from "../service/CategoriaService.js";
+import {useNavigate} from "react-router-dom";
 
 export const useProducto = ()=> {
 
     const {productos,selecionarFormulario }=
         useSelector(state => state.productos)
-
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -35,16 +36,17 @@ export const useProducto = ()=> {
 
     const guardarProductoBackend = async (producto,idCategoria)=> {
 
-        const  categoria = await traerByCategoria(idCategoria);
+       // const  categoria = await traerByCategoria(idCategoria);
         let response;
         try{
             if(producto.id === 0){
-                response = await guardarProducto(producto,categoria);
+                response = await guardarProducto(producto,idCategoria);
                 dispatch(agregarProducto(response))
             }else{
                 response = await actualizarProductoBackend(producto);
                 dispatch(actualizarProducto(response))
             }
+            navigate(`/categorias/${idCategoria}/productos`);
         }catch (e) {
 
 
@@ -68,7 +70,6 @@ export const useProducto = ()=> {
 
     const comprarProductoBackend = async (id)=> {
         const result = await traerProductoById(id);
-        console.log(result)
         return result;
     }
 
@@ -92,6 +93,4 @@ export const useProducto = ()=> {
         cargarFormulario,
         limpiarFormulario
     }
-
-
 }

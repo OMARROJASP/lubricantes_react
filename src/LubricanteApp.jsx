@@ -1,4 +1,3 @@
-import {LubricanteRoutes} from "./routes/LubricanteRoutes.jsx";
 import {AppRoutes} from "./AppRoutes.jsx";
 import {Provider} from "react-redux";
 import {store} from "./store/store.js";
