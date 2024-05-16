@@ -13,6 +13,7 @@ import {Register} from "../auth/pages/Registrar.jsx";
 import {CarrodeCompras} from "../components/carritoDeCompra/CarrodeCompras.jsx";
 import {Ofertas} from "../components/ofertas/Ofertas.jsx";
 import {IngresarDatosTarjeta} from "../components/venta/IngresarDatosTarjeta.jsx";
+import {NotFoundMessage} from "../components/error/NotFoundMessage.jsx";
 
 export const LubricanteRoutes =()=> {
     return(
@@ -38,6 +39,7 @@ export const LubricanteRoutes =()=> {
                     <Route path={"tienda/comprar/pagar/datos"} element={<IngresarDatosTarjeta/>} />
                     <Route path={"categorias/:idCategoria/productos/:idCompra/comprar/pagar"} element={<CarrodeCompras/>} />
                     <Route path={"/"} element={<Navigate to={"/tienda"}/> } />
+                    <Route path="*" element={<NotFoundMessage />}/>
                 </Routes>
             </div>
 
